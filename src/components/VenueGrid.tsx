@@ -11,6 +11,7 @@ interface VenueGridProps {
 
 const VenueGrid = ({ onVenueClick }: VenueGridProps) => {
   const { toast } = useToast();
+  const { resetFilters, hasActiveFilters } = useFilterStore();
   const observerRef = useRef<IntersectionObserver | null>(null);
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
@@ -73,8 +74,6 @@ const VenueGrid = ({ onVenueClick }: VenueGridProps) => {
       </div>
     );
   }
-
-  const { resetFilters, hasActiveFilters } = useFilterStore();
 
   if (allVenues.length === 0) {
     return (

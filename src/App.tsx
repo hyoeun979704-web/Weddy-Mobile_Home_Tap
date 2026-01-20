@@ -1,3 +1,6 @@
+import { PWAUpdatePrompt } from "@/components/PWAUpdatePrompt";
+// 또는 상대 경로라면
+// import { PWAUpdatePrompt } from "./components/PWAUpdatePrompt";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";

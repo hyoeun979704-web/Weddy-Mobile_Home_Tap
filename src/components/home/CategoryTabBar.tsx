@@ -1,13 +1,3 @@
-import { useState } from "react";
-import { 
-  Building2, 
-  Camera, 
-  Gift, 
-  Plane, 
-  Tv, 
-  Shirt,
-  Sparkles
-} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export type CategoryTab = 
@@ -22,17 +12,17 @@ export type CategoryTab =
 interface Tab {
   id: CategoryTab;
   label: string;
-  icon: React.ElementType;
+  emoji: string;
 }
 
 const tabs: Tab[] = [
-  { id: "wedding-hall", label: "웨딩홀", icon: Building2 },
-  { id: "sdm", label: "스드메", icon: Camera },
-  { id: "honeymoon-gifts", label: "혼수·골든타임", icon: Gift },
-  { id: "honeymoon", label: "허니문", icon: Plane },
-  { id: "appliances", label: "가전·예물", icon: Tv },
-  { id: "suit", label: "예복", icon: Shirt },
-  { id: "hanbok", label: "한복", icon: Sparkles },
+  { id: "wedding-hall", label: "웨딩홀", emoji: "🏛️" },
+  { id: "sdm", label: "스드메", emoji: "📸" },
+  { id: "honeymoon-gifts", label: "혼수·골든타임", emoji: "🎁" },
+  { id: "honeymoon", label: "허니문", emoji: "🌴" },
+  { id: "appliances", label: "가전·예물", emoji: "💍" },
+  { id: "suit", label: "예복", emoji: "👔" },
+  { id: "hanbok", label: "한복", emoji: "👗" },
 ];
 
 interface CategoryTabBarProps {
@@ -45,7 +35,6 @@ const CategoryTabBar = ({ activeTab, onTabChange }: CategoryTabBarProps) => {
     <div className="sticky top-14 z-40 bg-card border-b border-border">
       <div className="flex overflow-x-auto scrollbar-hide">
         {tabs.map((tab) => {
-          const Icon = tab.icon;
           const isActive = activeTab === tab.id;
           
           return (
@@ -53,16 +42,16 @@ const CategoryTabBar = ({ activeTab, onTabChange }: CategoryTabBarProps) => {
               key={tab.id}
               onClick={() => onTabChange(tab.id)}
               className={cn(
-                "flex-shrink-0 flex flex-col items-center gap-1 px-4 py-3 relative transition-colors",
+                "flex-shrink-0 flex items-center gap-1.5 px-4 py-3 relative transition-colors",
                 isActive 
                   ? "text-primary" 
                   : "text-muted-foreground hover:text-foreground"
               )}
             >
-              <Icon className="w-5 h-5" />
+              <span className="text-base">{tab.emoji}</span>
               <span 
                 className={cn(
-                  "text-xs whitespace-nowrap",
+                  "text-sm whitespace-nowrap",
                   isActive ? "font-bold" : "font-medium"
                 )}
               >

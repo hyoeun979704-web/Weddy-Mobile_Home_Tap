@@ -32,6 +32,16 @@ import AIStudio from "./pages/AIStudio";
 import Community from "./pages/Community";
 import MyPage from "./pages/MyPage";
 import Auth from "./pages/Auth";
+import Points from "./pages/Points";
+import Coupons from "./pages/Coupons";
+import Orders from "./pages/Orders";
+import MySchedule from "./pages/MySchedule";
+import Profile from "./pages/Profile";
+import Notifications from "./pages/Notifications";
+import MyInquiries from "./pages/MyInquiries";
+import Contact from "./pages/Contact";
+import FAQ from "./pages/FAQ";
+import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -47,32 +57,42 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
-          <Route path="/studios" element={<Studios />} />
-          <Route path="/studio/:id" element={<StudioDetail />} />
-          <Route path="/honeymoon-gifts" element={<HoneymoonGifts />} />
-          <Route path="/honeymoon-gifts/:id" element={<HoneymoonGiftDetail />} />
-          <Route path="/honeymoon" element={<Honeymoon />} />
-          <Route path="/honeymoon/:id" element={<HoneymoonDetail />} />
-          <Route path="/appliances" element={<Appliances />} />
-          <Route path="/appliances/:id" element={<ApplianceDetail />} />
-          <Route path="/suit" element={<Suit />} />
-          <Route path="/suit/:id" element={<SuitDetail />} />
-          <Route path="/hanbok" element={<Hanbok />} />
-          <Route path="/hanbok/:id" element={<HanbokDetail />} />
-          <Route path="/venues" element={<Venues />} />
-          <Route path="/venue/:id" element={<VenueDetail />} />
-          <Route path="/favorites" element={<Favorites />} />
-          <Route path="/store" element={<Store />} />
-          <Route path="/more" element={<More />} />
-          <Route path="/magazine" element={<Magazine />} />
-          <Route path="/reviews" element={<Reviews />} />
-          <Route path="/gallery" element={<Gallery />} />
-          <Route path="/ai-planner" element={<AIPlanner />} />
-          <Route path="/schedule" element={<Schedule />} />
-          <Route path="/ai-studio" element={<AIStudio />} />
-          <Route path="/ai-studio/:service" element={<AIStudio />} />
-          <Route path="/community" element={<Community />} />
+            <Route path="/studios" element={<Studios />} />
+            <Route path="/studio/:id" element={<StudioDetail />} />
+            <Route path="/honeymoon-gifts" element={<HoneymoonGifts />} />
+            <Route path="/honeymoon-gifts/:id" element={<HoneymoonGiftDetail />} />
+            <Route path="/honeymoon" element={<Honeymoon />} />
+            <Route path="/honeymoon/:id" element={<HoneymoonDetail />} />
+            <Route path="/appliances" element={<Appliances />} />
+            <Route path="/appliances/:id" element={<ApplianceDetail />} />
+            <Route path="/suit" element={<Suit />} />
+            <Route path="/suit/:id" element={<SuitDetail />} />
+            <Route path="/hanbok" element={<Hanbok />} />
+            <Route path="/hanbok/:id" element={<HanbokDetail />} />
+            <Route path="/venues" element={<Venues />} />
+            <Route path="/venue/:id" element={<VenueDetail />} />
+            <Route path="/favorites" element={<Favorites />} />
+            <Route path="/store" element={<Store />} />
+            <Route path="/more" element={<More />} />
+            <Route path="/magazine" element={<Magazine />} />
+            <Route path="/reviews" element={<Reviews />} />
+            <Route path="/gallery" element={<Gallery />} />
+            <Route path="/ai-planner" element={<AIPlanner />} />
+            <Route path="/schedule" element={<Schedule />} />
+            <Route path="/ai-studio" element={<AIStudio />} />
+            <Route path="/ai-studio/:service" element={<AIStudio />} />
+            <Route path="/community" element={<Community />} />
             <Route path="/mypage" element={<MyPage />} />
+            <Route path="/points" element={<Points />} />
+            <Route path="/coupons" element={<Coupons />} />
+            <Route path="/orders" element={<Orders />} />
+            <Route path="/my-schedule" element={<MySchedule />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/notifications" element={<Notifications />} />
+            <Route path="/my-inquiries" element={<MyInquiries />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="/settings" element={<Settings />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

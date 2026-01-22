@@ -6,11 +6,17 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Studios from "./pages/Studios";
+import StudioDetail from "./pages/StudioDetail";
 import HoneymoonGifts from "./pages/HoneymoonGifts";
+import HoneymoonGiftDetail from "./pages/HoneymoonGiftDetail";
 import Honeymoon from "./pages/Honeymoon";
+import HoneymoonDetail from "./pages/HoneymoonDetail";
 import Appliances from "./pages/Appliances";
+import ApplianceDetail from "./pages/ApplianceDetail";
 import Suit from "./pages/Suit";
+import SuitDetail from "./pages/SuitDetail";
 import Hanbok from "./pages/Hanbok";
+import HanbokDetail from "./pages/HanbokDetail";
 import Venues from "./pages/Venues";
 import VenueDetail from "./pages/VenueDetail";
 import Favorites from "./pages/Favorites";
@@ -38,11 +44,17 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/studios" element={<Studios />} />
+          <Route path="/studio/:id" element={<StudioDetail />} />
           <Route path="/honeymoon-gifts" element={<HoneymoonGifts />} />
+          <Route path="/honeymoon-gifts/:id" element={<HoneymoonGiftDetail />} />
           <Route path="/honeymoon" element={<Honeymoon />} />
+          <Route path="/honeymoon/:id" element={<HoneymoonDetail />} />
           <Route path="/appliances" element={<Appliances />} />
+          <Route path="/appliances/:id" element={<ApplianceDetail />} />
           <Route path="/suit" element={<Suit />} />
+          <Route path="/suit/:id" element={<SuitDetail />} />
           <Route path="/hanbok" element={<Hanbok />} />
+          <Route path="/hanbok/:id" element={<HanbokDetail />} />
           <Route path="/venues" element={<Venues />} />
           <Route path="/venue/:id" element={<VenueDetail />} />
           <Route path="/favorites" element={<Favorites />} />

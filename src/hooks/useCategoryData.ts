@@ -131,17 +131,15 @@ async function fetchCategoryItems(
 }
 
 export function useCategoryData(category: CategoryType) {
-  const filters = useCategoryFilterStore((state) => ({
-    region: state.region,
-    minRating: state.minRating,
-    filterOptions1: state.filterOptions1,
-    filterOptions2: state.filterOptions2,
-    filterOptions3: state.filterOptions3,
-  }));
+  const region = useCategoryFilterStore((state) => state.region);
+  const minRating = useCategoryFilterStore((state) => state.minRating);
+  const filterOptions1 = useCategoryFilterStore((state) => state.filterOptions1);
+  const filterOptions2 = useCategoryFilterStore((state) => state.filterOptions2);
+  const filterOptions3 = useCategoryFilterStore((state) => state.filterOptions3);
 
   return useInfiniteQuery({
-    queryKey: [category, filters],
-    queryFn: ({ pageParam = 0 }) => fetchCategoryItems(category, filters, pageParam),
+    queryKey: [category, region, minRating, filterOptions1, filterOptions2, filterOptions3],
+    queryFn: ({ pageParam = 0 }) => fetchCategoryItems(category, { region, minRating, filterOptions1, filterOptions2, filterOptions3 }, pageParam),
     getNextPageParam: (lastPage) => lastPage.nextPage,
     initialPageParam: 0,
   });

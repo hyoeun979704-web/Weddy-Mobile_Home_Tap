@@ -67,7 +67,10 @@ const MyPage = () => {
                 더 많은 혜택을 만나보세요
               </p>
             </div>
-            <button className="px-4 py-2 bg-primary text-primary-foreground rounded-xl text-sm font-medium flex items-center gap-1">
+            <button 
+              onClick={() => navigate("/auth")}
+              className="px-4 py-2 bg-primary text-primary-foreground rounded-xl text-sm font-medium flex items-center gap-1"
+            >
               <LogIn className="w-4 h-4" />
               로그인
             </button>

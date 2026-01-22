@@ -46,11 +46,8 @@ const HoneymoonGifts = () => {
     <div className="min-h-screen bg-background max-w-[430px] mx-auto relative">
       {/* Header */}
       <header className="sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border">
-        <div className="flex items-center justify-between px-4 h-14">
+        <div className="flex items-center justify-center px-4 h-14">
           <h1 className="text-lg font-bold text-foreground">혼수·골든타임</h1>
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-muted-foreground">전국</span>
-          </div>
         </div>
       </header>
 

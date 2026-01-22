@@ -1,15 +1,34 @@
 import { useNavigate, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import BottomNav from "@/components/BottomNav";
-import HeroBanner from "@/components/HeroBanner";
+import CategoryHeroBanner from "@/components/CategoryHeroBanner";
 import VenueGrid from "@/components/VenueGrid";
 import FilterBar from "@/components/FilterBar";
+import CategoryTabBar, { CategoryTab } from "@/components/home/CategoryTabBar";
 import { Venue } from "@/hooks/useVenues";
 import { useFilterStore } from "@/stores/useFilterStore";
+
+const tabToRoute: Record<CategoryTab, string> = {
+  "home": "/",
+  "wedding-hall": "/venues",
+  "sdm": "/studios",
+  "honeymoon-gifts": "/honeymoon-gifts",
+  "honeymoon": "/honeymoon",
+  "appliances": "/appliances",
+  "suit": "/suit",
+  "hanbok": "/hanbok",
+};
 
 const Venues = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const hasActiveFilters = useFilterStore((state) => state.hasActiveFilters);
+  const resetFilters = useFilterStore((state) => state.resetFilters);
+
+  useEffect(() => {
+    resetFilters();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleVenueClick = (venue: Venue) => {
     navigate(`/venue/${venue.id}`);
@@ -17,6 +36,10 @@ const Venues = () => {
 
   const handleTabChange = (href: string) => {
     navigate(href);
+  };
+
+  const handleCategoryTabChange = (tab: CategoryTab) => {
+    navigate(tabToRoute[tab]);
   };
 
   return (
@@ -31,9 +54,12 @@ const Venues = () => {
         </div>
       </header>
 
+      {/* Category Tab Bar */}
+      <CategoryTabBar activeTab="wedding-hall" onTabChange={handleCategoryTabChange} />
+
       {/* Main Content */}
       <main className="pb-20">
-        <HeroBanner />
+        <CategoryHeroBanner category="venues" />
         
         {/* Filter Bar */}
         <FilterBar />

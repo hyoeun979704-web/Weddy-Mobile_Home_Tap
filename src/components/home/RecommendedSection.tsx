@@ -53,6 +53,16 @@ interface SectionData {
 }
 
 const sectionDataMap: Record<CategoryTab, SectionData> = {
+  "home": {
+    title: "맞춤 웨딩홀 추천",
+    viewAllPath: "/venues",
+    items: [
+      { id: "1", name: "더채플앳청담", location: "서울 강남구", priceRange: "8만원대", rating: 4.8, reviewCount: 324, imageUrl: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=400", onClick: () => {} },
+      { id: "2", name: "그랜드힐튼 컨벤션", location: "서울 서대문구", priceRange: "12만원대", rating: 4.6, reviewCount: 256, imageUrl: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=400", onClick: () => {} },
+      { id: "3", name: "루벨아뜨리움", location: "서울 강서구", priceRange: "7만원대", rating: 4.7, reviewCount: 189, imageUrl: "https://images.unsplash.com/photo-1507504031003-b417219a0fde?w=400", onClick: () => {} },
+      { id: "4", name: "아펠가모 강남", location: "서울 강남구", priceRange: "15만원대", rating: 4.9, reviewCount: 412, imageUrl: "https://images.unsplash.com/photo-1478146896981-b80fe463b330?w=400", onClick: () => {} },
+    ],
+  },
   "wedding-hall": {
     title: "맞춤 웨딩홀 추천",
     viewAllPath: "/venues",

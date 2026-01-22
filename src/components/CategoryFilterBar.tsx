@@ -14,6 +14,41 @@ interface FilterConfig {
 }
 
 const filterConfigs: Record<CategoryType, FilterConfig> = {
+  venues: {
+    title: "웨딩홀 필터",
+    regions: [
+      { value: "강남", label: "강남" },
+      { value: "서초", label: "서초" },
+      { value: "마포", label: "마포" },
+      { value: "용산", label: "용산" },
+      { value: "송파", label: "송파" },
+    ],
+    filterOptions1: {
+      label: "홀 유형",
+      options: [
+        { value: "호텔", label: "호텔" },
+        { value: "하우스", label: "하우스" },
+        { value: "채플", label: "채플" },
+        { value: "컨벤션", label: "컨벤션" },
+      ],
+    },
+    filterOptions2: {
+      label: "식사 옵션",
+      options: [
+        { value: "한식", label: "한식" },
+        { value: "양식", label: "양식" },
+        { value: "뷔페", label: "뷔페" },
+      ],
+    },
+    filterOptions3: {
+      label: "부대 시설",
+      options: [
+        { value: "주차", label: "주차" },
+        { value: "대기실", label: "대기실" },
+        { value: "야외", label: "야외" },
+      ],
+    },
+  },
   studios: {
     title: "스드메 필터",
     regions: [

@@ -30,6 +30,16 @@ interface MagazineData {
 }
 
 const magazineDataMap: Record<CategoryTab, MagazineData> = {
+  "home": {
+    title: "웨딩 매거진",
+    subtitle: "예비부부를 위한 꿀팁",
+    articles: [
+      { icon: Music, title: "2025 인기 입장곡 TOP 20", description: "분위기별 추천 입장곡 모음", color: "bg-pink-100 text-pink-500" },
+      { icon: Camera, title: "스냅 촬영 베스트 포즈", description: "자연스러운 커플 포즈 가이드", color: "bg-violet-100 text-violet-500" },
+      { icon: CheckSquare, title: "결혼 준비 체크리스트", description: "D-365부터 D-Day까지", color: "bg-emerald-100 text-emerald-500" },
+      { icon: Heart, title: "예비부부 필독 꿀팁", description: "선배 신부가 알려주는 노하우", color: "bg-rose-100 text-rose-500" },
+    ],
+  },
   "wedding-hall": {
     title: "웨딩 매거진",
     subtitle: "예비부부를 위한 꿀팁",

@@ -9,6 +9,7 @@ import { useCategoryFilterStore } from "@/stores/useCategoryFilterStore";
 import { CategoryItem } from "@/hooks/useCategoryData";
 
 const tabToRoute: Record<CategoryTab, string> = {
+  "home": "/",
   "wedding-hall": "/venues",
   "sdm": "/studios",
   "honeymoon-gifts": "/honeymoon-gifts",

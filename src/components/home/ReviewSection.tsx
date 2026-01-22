@@ -49,6 +49,15 @@ interface ReviewData {
 }
 
 const reviewDataMap: Record<CategoryTab, ReviewData> = {
+  "home": {
+    title: "예비부부 리얼 후기",
+    subtitle: "웨딩홀 실제 이용 후기",
+    reviews: [
+      { rating: 5, review: "처음부터 끝까지 정말 만족스러웠어요. 특히 담당 플래너분이 꼼꼼하게 챙겨주셔서 너무 감사했습니다!", vendorName: "더채플앳청담", vendorType: "웨딩홀", userName: "김**님", date: "2025.01.15" },
+      { rating: 5, review: "음식이 정말 맛있었다고 하객분들께서 많이 칭찬해주셨어요. 서비스도 전반적으로 좋았습니다.", vendorName: "그랜드힐튼", vendorType: "웨딩홀", userName: "박**님", date: "2025.01.10" },
+      { rating: 4, review: "공간이 넓고 아늑해서 좋았어요. 다만 주차 공간이 조금 부족했던 점이 아쉬웠습니다.", vendorName: "루벨아뜨리움", vendorType: "웨딩홀", userName: "이**님", date: "2025.01.08" },
+    ],
+  },
   "wedding-hall": {
     title: "예비부부 리얼 후기",
     subtitle: "웨딩홀 실제 이용 후기",

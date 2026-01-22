@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 
 export type CategoryTab = 
+  | "home"
   | "wedding-hall" 
   | "sdm" 
   | "honeymoon-gifts" 
@@ -16,6 +17,7 @@ interface Tab {
 }
 
 const tabs: Tab[] = [
+  { id: "home", label: "홈", emoji: "🏠" },
   { id: "wedding-hall", label: "웨딩홀", emoji: "🏛️" },
   { id: "sdm", label: "스드메", emoji: "📸" },
   { id: "honeymoon-gifts", label: "혼수·골든타임", emoji: "🎁" },

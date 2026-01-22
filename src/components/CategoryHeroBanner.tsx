@@ -13,6 +13,16 @@ interface CategoryConfig {
 }
 
 const categoryConfigs: Record<CategoryType, CategoryConfig> = {
+  venues: {
+    icon: Sparkles,
+    iconColor: "text-primary",
+    bgGradient: "from-accent via-accent/50 to-background",
+    accentBg: "bg-primary/10",
+    label: "웨딩홀",
+    title: ["완벽한 결혼식을 위한", "나만의 웨딩홀"],
+    highlight: "text-primary",
+    description: "지역별 인기 웨딩홀 비교부터 실시간 예약까지",
+  },
   studios: {
     icon: Camera,
     iconColor: "text-violet-600",

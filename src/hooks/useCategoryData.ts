@@ -29,6 +29,13 @@ interface CategoryConfig {
 }
 
 const categoryConfigs: Record<CategoryType, CategoryConfig> = {
+  venues: {
+    tableName: 'venues',
+    arrayField1: 'hall_types',
+    arrayField2: 'meal_options',
+    arrayField3: 'event_options',
+    locationField: 'address',
+  },
   studios: {
     tableName: 'studios',
     arrayField1: 'package_types',
@@ -87,7 +94,7 @@ async function fetchCategoryItems(
   pageParam: number
 ) {
   const config = categoryConfigs[category];
-  const tableName = config.tableName as 'studios' | 'honeymoon' | 'honeymoon_gifts' | 'appliances' | 'suits' | 'hanbok';
+  const tableName = config.tableName as 'venues' | 'studios' | 'honeymoon' | 'honeymoon_gifts' | 'appliances' | 'suits' | 'hanbok';
   
   let query = supabase
     .from(tableName)

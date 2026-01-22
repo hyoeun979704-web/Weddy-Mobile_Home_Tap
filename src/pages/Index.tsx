@@ -8,7 +8,7 @@ import Footer from "@/components/home/Footer";
 const Index = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const activeTab: CategoryTab = "wedding-hall";
+  const activeTab: CategoryTab = "home";
 
   const handleTabChange = (href: string) => {
     navigate(href);
@@ -16,7 +16,8 @@ const Index = () => {
 
   const handleCategoryTabChange = (tab: CategoryTab) => {
     const tabRoutes: Record<CategoryTab, string> = {
-      "wedding-hall": "/",
+      "home": "/",
+      "wedding-hall": "/venues",
       "sdm": "/studios",
       "honeymoon-gifts": "/honeymoon-gifts",
       "honeymoon": "/honeymoon",

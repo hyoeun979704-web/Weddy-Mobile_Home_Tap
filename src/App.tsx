@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
 import Studios from "./pages/Studios";
 import StudioDetail from "./pages/StudioDetail";
@@ -30,19 +31,22 @@ import Schedule from "./pages/Schedule";
 import AIStudio from "./pages/AIStudio";
 import Community from "./pages/Community";
 import MyPage from "./pages/MyPage";
+import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <PWAUpdatePrompt />
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
+    <AuthProvider>
+      <TooltipProvider>
+        <PWAUpdatePrompt />
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/auth" element={<Auth />} />
           <Route path="/studios" element={<Studios />} />
           <Route path="/studio/:id" element={<StudioDetail />} />
           <Route path="/honeymoon-gifts" element={<HoneymoonGifts />} />
@@ -68,12 +72,13 @@ const App = () => (
           <Route path="/ai-studio" element={<AIStudio />} />
           <Route path="/ai-studio/:service" element={<AIStudio />} />
           <Route path="/community" element={<Community />} />
-          <Route path="/mypage" element={<MyPage />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+            <Route path="/mypage" element={<MyPage />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </AuthProvider>
   </QueryClientProvider>
 );
 

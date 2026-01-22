@@ -1,10 +1,11 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, Star, MapPin, Users, Phone, Heart, Share2, ChevronRight } from "lucide-react";
+import { ArrowLeft, Star, MapPin, Users, Phone, Share2, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabase } from "@/integrations/supabase/client";
 import { Venue } from "@/hooks/useVenues";
+import { FavoriteButton } from "@/components/FavoriteButton";
 
 const formatKoreanWon = (price: number): string => {
   if (price >= 10000) {
@@ -78,9 +79,11 @@ const VenueDetail = () => {
             <button className="w-10 h-10 bg-background/80 backdrop-blur-sm rounded-full flex items-center justify-center shadow-sm transition-transform active:scale-95">
               <Share2 className="w-5 h-5" />
             </button>
-            <button className="w-10 h-10 bg-background/80 backdrop-blur-sm rounded-full flex items-center justify-center shadow-sm transition-transform active:scale-95">
-              <Heart className="w-5 h-5" />
-            </button>
+            <FavoriteButton
+              itemId={venue.id}
+              itemType="venue"
+              variant="overlay"
+            />
           </div>
         </div>
 

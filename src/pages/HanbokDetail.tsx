@@ -1,10 +1,11 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, Star, MapPin, Phone, Heart, Share2, ChevronRight, Palette, Sparkles } from "lucide-react";
+import { ArrowLeft, Star, MapPin, Phone, Share2, ChevronRight, Palette, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabase } from "@/integrations/supabase/client";
 import { Tables } from "@/integrations/supabase/types";
+import { FavoriteButton } from "@/components/FavoriteButton";
 
 type Hanbok = Tables<"hanbok">;
 
@@ -73,9 +74,11 @@ const HanbokDetail = () => {
             <button className="w-10 h-10 bg-background/80 backdrop-blur-sm rounded-full flex items-center justify-center shadow-sm">
               <Share2 className="w-5 h-5" />
             </button>
-            <button className="w-10 h-10 bg-background/80 backdrop-blur-sm rounded-full flex items-center justify-center shadow-sm">
-              <Heart className="w-5 h-5" />
-            </button>
+            <FavoriteButton
+              itemId={hanbok.id}
+              itemType="hanbok"
+              variant="overlay"
+            />
           </div>
         </div>
 

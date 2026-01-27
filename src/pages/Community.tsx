@@ -9,16 +9,14 @@ import {
   PenSquare,
   Image,
   TrendingUp,
-  Clock,
-  X
+  Clock
 } from "lucide-react";
 import BottomNav from "@/components/BottomNav";
-import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
+import CommunitySearchOverlay from "@/components/community/CommunitySearchOverlay";
 
 interface Post {
   id: string;
@@ -39,7 +37,6 @@ const Community = () => {
   const location = useLocation();
   const [selectedCategory, setSelectedCategory] = useState("전체");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
 
   // Fetch posts from database
   const { data: posts = [], isLoading } = useQuery({
@@ -91,13 +88,6 @@ const Community = () => {
     ? posts 
     : posts.filter(post => post.category === selectedCategory);
 
-  const searchedPosts = searchQuery 
-    ? filteredPosts.filter(post => 
-        post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.content.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    : filteredPosts;
-
   const handlePostClick = (postId: string) => {
     navigate(`/community/${postId}`);
   };
@@ -119,48 +109,30 @@ const Community = () => {
 
   return (
     <div className="min-h-screen bg-background max-w-[430px] mx-auto relative">
+      {/* Search Overlay */}
+      <CommunitySearchOverlay 
+        isOpen={isSearchOpen} 
+        onClose={() => setIsSearchOpen(false)} 
+      />
+
       {/* Header */}
       <header className="sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="flex items-center justify-between px-4 h-14">
-          {isSearchOpen ? (
-            <div className="flex-1 flex items-center gap-2">
-              <Input
-                type="text"
-                placeholder="게시글 검색..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="flex-1 h-9"
-                autoFocus
-              />
-              <button 
-                onClick={() => {
-                  setIsSearchOpen(false);
-                  setSearchQuery("");
-                }}
-                className="p-2"
-              >
-                <X className="w-5 h-5 text-muted-foreground" />
-              </button>
-            </div>
-          ) : (
-            <>
-              <h1 className="text-lg font-bold text-foreground">커뮤니티</h1>
-              <div className="flex items-center gap-2">
-                <button 
-                  onClick={() => setIsSearchOpen(true)}
-                  className="p-2 hover:bg-muted rounded-full transition-colors"
-                >
-                  <Search className="w-5 h-5 text-muted-foreground" />
-                </button>
-                <button 
-                  onClick={handleWriteClick}
-                  className="p-2 hover:bg-muted rounded-full transition-colors"
-                >
-                  <PenSquare className="w-5 h-5 text-muted-foreground" />
-                </button>
-              </div>
-            </>
-          )}
+          <h1 className="text-lg font-bold text-foreground">커뮤니티</h1>
+          <div className="flex items-center gap-2">
+            <button 
+              onClick={() => setIsSearchOpen(true)}
+              className="p-2 hover:bg-muted rounded-full transition-colors"
+            >
+              <Search className="w-5 h-5 text-muted-foreground" />
+            </button>
+            <button 
+              onClick={handleWriteClick}
+              className="p-2 hover:bg-muted rounded-full transition-colors"
+            >
+              <PenSquare className="w-5 h-5 text-muted-foreground" />
+            </button>
+          </div>
         </div>
         
         {/* Category Tabs */}
@@ -224,9 +196,7 @@ const Community = () => {
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4 text-muted-foreground" />
-              <span className="text-sm font-medium text-foreground">
-                {searchQuery ? `'${searchQuery}' 검색 결과` : "최신 글"}
-              </span>
+              <span className="text-sm font-medium text-foreground">최신 글</span>
             </div>
             {selectedCategory !== "전체" && (
               <span className="text-xs text-primary font-medium">{selectedCategory}</span>
@@ -239,13 +209,13 @@ const Community = () => {
                 <Skeleton key={i} className="h-32 rounded-2xl" />
               ))}
             </div>
-          ) : searchedPosts.length === 0 ? (
+          ) : filteredPosts.length === 0 ? (
             <div className="py-12 text-center">
               <p className="text-muted-foreground text-sm">게시글이 없습니다.</p>
             </div>
           ) : (
             <div className="space-y-3">
-              {searchedPosts.map((post) => (
+              {filteredPosts.map((post) => (
                 <button
                   key={post.id}
                   onClick={() => handlePostClick(post.id)}

@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { User, Pencil, Trash2, X, Check, MessageSquare } from "lucide-react";
+import { User, Pencil, Trash2, X, Check, MessageSquare, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -25,6 +24,11 @@ interface Comment {
   parent_comment_id: string | null;
 }
 
+interface CommentLikeInfo {
+  count: number;
+  userLiked: boolean;
+}
+
 interface CommentItemProps {
   comment: Comment;
   replies?: Comment[];
@@ -40,6 +44,9 @@ interface CommentItemProps {
   isUpdating: boolean;
   isDeleting: boolean;
   isReplyMode?: boolean;
+  getCommentLikeInfo: (commentId: string) => CommentLikeInfo;
+  onToggleLike: (commentId: string) => void;
+  isLikeToggling: boolean;
 }
 
 const CommentItem = ({
@@ -57,6 +64,9 @@ const CommentItem = ({
   isUpdating,
   isDeleting,
   isReplyMode = false,
+  getCommentLikeInfo,
+  onToggleLike,
+  isLikeToggling,
 }: CommentItemProps) => {
   const isEditing = editingCommentId === comment.id;
   const formatDate = (dateString: string) => {
@@ -151,15 +161,31 @@ const CommentItem = ({
               <p className="text-sm text-foreground leading-relaxed">
                 {comment.content}
               </p>
-              {!isReplyMode && (
+              <div className="flex items-center gap-3 mt-2">
                 <button
-                  onClick={() => onReply(comment.id)}
-                  className="flex items-center gap-1 mt-2 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                  onClick={() => onToggleLike(comment.id)}
+                  disabled={isLikeToggling}
+                  className={`flex items-center gap-1 text-xs transition-colors ${
+                    getCommentLikeInfo(comment.id).userLiked 
+                      ? "text-red-500" 
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
                 >
-                  <MessageSquare className="w-3.5 h-3.5" />
-                  답글
+                  <Heart className={`w-3.5 h-3.5 ${getCommentLikeInfo(comment.id).userLiked ? "fill-current" : ""}`} />
+                  {getCommentLikeInfo(comment.id).count > 0 && (
+                    <span>{getCommentLikeInfo(comment.id).count}</span>
+                  )}
                 </button>
-              )}
+                {!isReplyMode && (
+                  <button
+                    onClick={() => onReply(comment.id)}
+                    className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    <MessageSquare className="w-3.5 h-3.5" />
+                    답글
+                  </button>
+                )}
+              </div>
             </>
           )}
         </div>
@@ -169,22 +195,25 @@ const CommentItem = ({
       {replies.length > 0 && (
         <div className="mt-3 space-y-3">
           {replies.map((reply) => (
-            <CommentItem
-              key={reply.id}
-              comment={reply}
-              currentUserId={currentUserId}
-              editingCommentId={editingCommentId}
-              editingContent={editingContent}
-              onStartEdit={onStartEdit}
-              onCancelEdit={onCancelEdit}
-              onSaveEdit={onSaveEdit}
-              onDelete={onDelete}
-              onEditingContentChange={onEditingContentChange}
-              onReply={onReply}
-              isUpdating={isUpdating}
-              isDeleting={isDeleting}
-              isReplyMode={true}
-            />
+              <CommentItem
+                key={reply.id}
+                comment={reply}
+                currentUserId={currentUserId}
+                editingCommentId={editingCommentId}
+                editingContent={editingContent}
+                onStartEdit={onStartEdit}
+                onCancelEdit={onCancelEdit}
+                onSaveEdit={onSaveEdit}
+                onDelete={onDelete}
+                onEditingContentChange={onEditingContentChange}
+                onReply={onReply}
+                isUpdating={isUpdating}
+                isDeleting={isDeleting}
+                isReplyMode={true}
+                getCommentLikeInfo={getCommentLikeInfo}
+                onToggleLike={onToggleLike}
+                isLikeToggling={isLikeToggling}
+              />
           ))}
         </div>
       )}

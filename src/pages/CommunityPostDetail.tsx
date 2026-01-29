@@ -34,6 +34,7 @@ import { formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
 import PostImageGallery from "@/components/community/PostImageGallery";
 import CommentItem from "@/components/community/CommentItem";
+import { useCommentLikes } from "@/hooks/useCommentLikes";
 
 interface Post {
   id: string;
@@ -66,6 +67,9 @@ const CommunityPostDetail = () => {
   const [editingContent, setEditingContent] = useState("");
   const [replyingToId, setReplyingToId] = useState<string | null>(null);
   const [replyContent, setReplyContent] = useState("");
+  
+  // Comment likes hook
+  const { getCommentLikeInfo, toggleLike, isToggling: isLikeToggling } = useCommentLikes(id || "");
 
   // Fetch post
   const { data: post, isLoading: postLoading } = useQuery({
@@ -513,6 +517,9 @@ const CommunityPostDetail = () => {
                       onReply={handleStartReply}
                       isUpdating={updateCommentMutation.isPending}
                       isDeleting={deleteCommentMutation.isPending}
+                      getCommentLikeInfo={getCommentLikeInfo}
+                      onToggleLike={toggleLike}
+                      isLikeToggling={isLikeToggling}
                     />
                     
                     {/* Reply Input */}

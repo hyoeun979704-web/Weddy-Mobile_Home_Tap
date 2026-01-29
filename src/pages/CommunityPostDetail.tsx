@@ -11,7 +11,8 @@ import {
   User,
   Pencil,
   Trash2,
-  X
+  X,
+  Bookmark
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
@@ -35,6 +36,7 @@ import { ko } from "date-fns/locale";
 import PostImageGallery from "@/components/community/PostImageGallery";
 import CommentItem from "@/components/community/CommentItem";
 import { useCommentLikes } from "@/hooks/useCommentLikes";
+import { useFavorites } from "@/hooks/useFavorites";
 
 interface Post {
   id: string;
@@ -70,6 +72,10 @@ const CommunityPostDetail = () => {
   
   // Comment likes hook
   const { getCommentLikeInfo, toggleLike, isToggling: isLikeToggling } = useCommentLikes(id || "");
+  
+  // Bookmark (favorites) hook
+  const { isFavorite, toggleFavorite, isToggling: isBookmarkToggling } = useFavorites();
+  const isBookmarked = id ? isFavorite(id, "community_post") : false;
 
   // Fetch post
   const { data: post, isLoading: postLoading } = useQuery({
@@ -383,6 +389,19 @@ const CommunityPostDetail = () => {
             <span className="text-sm font-medium text-foreground">게시글</span>
           </div>
           <div className="flex items-center gap-1">
+            <button 
+              onClick={() => {
+                if (!user) {
+                  navigate("/auth");
+                  return;
+                }
+                if (id) toggleFavorite(id, "community_post");
+              }}
+              disabled={isBookmarkToggling}
+              className="p-2"
+            >
+              <Bookmark className={`w-5 h-5 transition-colors ${isBookmarked ? "fill-primary text-primary" : "text-muted-foreground"}`} />
+            </button>
             <button onClick={handleShare} className="p-2">
               <Share2 className="w-5 h-5 text-muted-foreground" />
             </button>

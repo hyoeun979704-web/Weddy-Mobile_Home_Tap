@@ -34,6 +34,7 @@ import Community from "./pages/Community";
 import CommunityWrite from "./pages/CommunityWrite";
 import CommunityEdit from "./pages/CommunityEdit";
 import CommunityPostDetail from "./pages/CommunityPostDetail";
+import BookmarkedPosts from "./pages/BookmarkedPosts";
 import MyPage from "./pages/MyPage";
 import Auth from "./pages/Auth";
 import Points from "./pages/Points";
@@ -89,6 +90,7 @@ const App = () => (
             <Route path="/ai-studio/:service" element={<AIStudioService />} />
             <Route path="/community" element={<Community />} />
             <Route path="/community/write" element={<CommunityWrite />} />
+            <Route path="/community/bookmarks" element={<BookmarkedPosts />} />
             <Route path="/community/:id" element={<CommunityPostDetail />} />
             <Route path="/community/:id/edit" element={<CommunityEdit />} />
             <Route path="/mypage" element={<MyPage />} />

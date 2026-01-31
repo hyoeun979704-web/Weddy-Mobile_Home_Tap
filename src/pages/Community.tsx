@@ -9,7 +9,8 @@ import {
   PenSquare,
   Image,
   TrendingUp,
-  Clock
+  Clock,
+  Bookmark
 } from "lucide-react";
 import BottomNav from "@/components/BottomNav";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -120,6 +121,12 @@ const Community = () => {
         <div className="flex items-center justify-between px-4 h-14">
           <h1 className="text-lg font-bold text-foreground">커뮤니티</h1>
           <div className="flex items-center gap-2">
+            <button 
+              onClick={() => navigate("/community/bookmarks")}
+              className="p-2 hover:bg-muted rounded-full transition-colors"
+            >
+              <Bookmark className="w-5 h-5 text-muted-foreground" />
+            </button>
             <button 
               onClick={() => setIsSearchOpen(true)}
               className="p-2 hover:bg-muted rounded-full transition-colors"

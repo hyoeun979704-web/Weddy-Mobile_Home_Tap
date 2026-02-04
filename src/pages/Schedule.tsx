@@ -9,9 +9,13 @@ import {
   Camera,
   Gift,
   Plane,
-  Home as HomeIcon
+  Home as HomeIcon,
+  Loader2,
+  Plus
 } from "lucide-react";
 import BottomNav from "@/components/BottomNav";
+import { useWeddingSchedule } from "@/hooks/useWeddingSchedule";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface TimelineItem {
   id: string;
@@ -74,10 +78,30 @@ const timelineItems: TimelineItem[] = [
 const Schedule = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { user } = useAuth();
+  const { weddingSettings, scheduleItems, isLoading, toggleItemCompletion } = useWeddingSchedule();
 
   const handleTabChange = (href: string) => {
     navigate(href);
   };
+
+  // Calculate D-Day
+  const daysUntilWedding = () => {
+    if (!weddingSettings.wedding_date) return null;
+    const wedding = new Date(weddingSettings.wedding_date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const diff = Math.ceil((wedding.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+    return diff;
+  };
+
+  const days = daysUntilWedding();
+  const progress = days !== null && days > 0 ? Math.max(0, Math.min(100, Math.round((1 - days / 365) * 100))) : 0;
+
+  // Get upcoming tasks (not completed, sorted by date)
+  const upcomingTasks = scheduleItems
+    .filter(item => !item.completed)
+    .slice(0, 3);
 
   const getStatusColor = (status: TimelineItem["status"]) => {
     switch (status) {
@@ -95,57 +119,100 @@ const Schedule = () => {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background max-w-[430px] mx-auto relative flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background max-w-[430px] mx-auto relative">
       {/* Header */}
       <header className="sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="flex items-center justify-between px-4 h-14">
           <h1 className="text-lg font-bold text-foreground">웨딩 스케쥴</h1>
-          <button className="flex items-center gap-1.5 px-3 py-1.5 bg-primary/10 rounded-full text-primary text-sm font-medium">
-            <Sparkles className="w-4 h-4" />
-            AI 맞춤 생성
+          <button 
+            onClick={() => navigate("/my-schedule")}
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-primary/10 rounded-full text-primary text-sm font-medium"
+          >
+            <Plus className="w-4 h-4" />
+            일정 관리
           </button>
         </div>
       </header>
 
       {/* Main Content */}
       <main className="pb-20 px-4 py-4">
-        {/* Progress Summary */}
-        <div className="bg-gradient-to-br from-primary/10 via-accent to-background rounded-2xl p-4 mb-6">
+        {/* Progress Summary - Dynamic */}
+        <div 
+          className="bg-gradient-to-br from-primary/10 via-accent to-background rounded-2xl p-4 mb-6 cursor-pointer"
+          onClick={() => navigate("/my-schedule")}
+        >
           <div className="flex items-center gap-3 mb-3">
             <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
               <Calendar className="w-6 h-6 text-primary" />
             </div>
             <div>
-              <h2 className="font-bold text-foreground">D-180</h2>
-              <p className="text-sm text-muted-foreground">결혼식까지 남은 날</p>
+              {days !== null ? (
+                <>
+                  <h2 className="font-bold text-foreground">
+                    {days > 0 ? `D-${days}` : days === 0 ? "D-Day!" : `D+${Math.abs(days)}`}
+                  </h2>
+                  <p className="text-sm text-muted-foreground">결혼식까지 남은 날</p>
+                </>
+              ) : (
+                <>
+                  <h2 className="font-bold text-foreground">날짜 미설정</h2>
+                  <p className="text-sm text-muted-foreground">탭하여 날짜를 설정하세요</p>
+                </>
+              )}
             </div>
           </div>
           <div className="flex items-center gap-2">
             <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
-              <div className="h-full bg-primary rounded-full" style={{ width: "30%" }} />
+              <div className="h-full bg-primary rounded-full transition-all" style={{ width: `${progress}%` }} />
             </div>
-            <span className="text-sm font-medium text-primary">30%</span>
+            <span className="text-sm font-medium text-primary">{progress}%</span>
           </div>
         </div>
 
-        {/* Current Tasks */}
+        {/* Current Tasks - Dynamic */}
         <div className="mb-6">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="font-bold text-foreground">이번 주 할 일</h3>
-            <button className="text-sm text-primary font-medium">전체보기</button>
+            <h3 className="font-bold text-foreground">다가오는 일정</h3>
+            <button onClick={() => navigate("/my-schedule")} className="text-sm text-primary font-medium">전체보기</button>
           </div>
-          <div className="space-y-2">
-            {["스튜디오 방문 예약", "드레스샵 1차 피팅", "웨딩플래너 미팅"].map((task, index) => (
-              <div key={index} className="flex items-center gap-3 p-3 bg-card rounded-xl border border-border">
-                <button className="w-5 h-5 rounded-full border-2 border-muted-foreground/30 flex items-center justify-center">
-                  <CheckCircle2 className="w-4 h-4 text-transparent" />
-                </button>
-                <span className="flex-1 text-sm text-foreground">{task}</span>
-                <Clock className="w-4 h-4 text-muted-foreground" />
-              </div>
-            ))}
-          </div>
+          {user && upcomingTasks.length > 0 ? (
+            <div className="space-y-2">
+              {upcomingTasks.map((task) => (
+                <div key={task.id} className="flex items-center gap-3 p-3 bg-card rounded-xl border border-border">
+                  <button 
+                    onClick={() => toggleItemCompletion(task.id)}
+                    className="w-5 h-5 rounded-full border-2 border-muted-foreground/30 flex items-center justify-center hover:border-primary transition-colors"
+                  >
+                    <CheckCircle2 className="w-4 h-4 text-transparent" />
+                  </button>
+                  <div className="flex-1">
+                    <span className="text-sm text-foreground">{task.title}</span>
+                    <p className="text-xs text-muted-foreground">{task.scheduled_date}</p>
+                  </div>
+                  <Clock className="w-4 h-4 text-muted-foreground" />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div 
+              className="flex flex-col items-center justify-center py-6 bg-card rounded-xl border border-dashed border-border cursor-pointer hover:border-primary/50 transition-colors"
+              onClick={() => navigate("/my-schedule")}
+            >
+              <Plus className="w-8 h-8 text-muted-foreground mb-2" />
+              <p className="text-sm text-muted-foreground">
+                {user ? "일정을 추가해보세요" : "로그인하여 일정을 관리하세요"}
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Timeline */}

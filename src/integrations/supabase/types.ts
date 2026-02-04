@@ -557,27 +557,33 @@ export type Database = {
       }
       user_schedule_items: {
         Row: {
+          category: string | null
           completed: boolean
           created_at: string
           id: string
+          notes: string | null
           scheduled_date: string
           title: string
           updated_at: string
           user_id: string
         }
         Insert: {
+          category?: string | null
           completed?: boolean
           created_at?: string
           id?: string
+          notes?: string | null
           scheduled_date: string
           title: string
           updated_at?: string
           user_id: string
         }
         Update: {
+          category?: string | null
           completed?: boolean
           created_at?: string
           id?: string
+          notes?: string | null
           scheduled_date?: string
           title?: string
           updated_at?: string

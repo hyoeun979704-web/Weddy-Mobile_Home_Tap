@@ -8,6 +8,8 @@ export interface ScheduleItem {
   title: string;
   scheduled_date: string;
   completed: boolean;
+  notes: string | null;
+  category: string;
 }
 
 interface WeddingSettings {
@@ -37,7 +39,7 @@ export const useWeddingSchedule = () => {
           .maybeSingle(),
         supabase
           .from("user_schedule_items")
-          .select("id, title, scheduled_date, completed")
+          .select("id, title, scheduled_date, completed, notes, category")
           .eq("user_id", user.id)
           .order("scheduled_date", { ascending: true }),
       ]);
@@ -99,7 +101,7 @@ export const useWeddingSchedule = () => {
   };
 
   // Add schedule item
-  const addScheduleItem = async (title: string, scheduledDate: string) => {
+  const addScheduleItem = async (title: string, scheduledDate: string, category: string = 'general') => {
     if (!user) {
       toast.error("로그인이 필요합니다");
       return false;
@@ -108,8 +110,8 @@ export const useWeddingSchedule = () => {
     try {
       const { data, error } = await supabase
         .from("user_schedule_items")
-        .insert({ user_id: user.id, title, scheduled_date: scheduledDate })
-        .select("id, title, scheduled_date, completed")
+        .insert({ user_id: user.id, title, scheduled_date: scheduledDate, category })
+        .select("id, title, scheduled_date, completed, notes, category")
         .single();
 
       if (error) throw error;
@@ -125,6 +127,24 @@ export const useWeddingSchedule = () => {
       console.error("Error adding schedule item:", error);
       toast.error("일정 추가에 실패했습니다");
       return false;
+    }
+  };
+
+  // Update item notes
+  const updateItemNotes = async (id: string, notes: string) => {
+    try {
+      await supabase
+        .from("user_schedule_items")
+        .update({ notes })
+        .eq("id", id);
+
+      setScheduleItems(prev =>
+        prev.map(i => (i.id === id ? { ...i, notes } : i))
+      );
+      toast.success("메모가 저장되었습니다");
+    } catch (error) {
+      console.error("Error updating notes:", error);
+      toast.error("메모 저장에 실패했습니다");
     }
   };
 
@@ -168,5 +188,6 @@ export const useWeddingSchedule = () => {
     addScheduleItem,
     toggleItemCompletion,
     deleteScheduleItem,
+    updateItemNotes,
   };
 };
